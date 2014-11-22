@@ -115,12 +115,14 @@ class Zabbix
 	private function _requisitar($metodo, $params)
 	{
 		$apiRequest = array(
-				'auth'    => $this->hash32,
 				'method'  => $metodo,
 				'id'      => self::ID_ZABBIX,
 				'params'  => $params,
 				'jsonrpc' => '2.0'
 		);
+
+		if($this->hash32 !== null)
+			$apiRequest->auth = $this->hash32;
 
 		$curl = curl_init($this->url.self::PAGINA_API);
 		curl_setopt_array($curl, array(
